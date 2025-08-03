@@ -43,6 +43,29 @@
       z-index: 3;
       position: relative;
     }
+    img.card-img-top{
+      width: 100%;
+    }
+    div.map div.card{
+      width: 20%;
+      transition: .3s;
+    }
+    div.map div.card:hover{
+      scale: 1.05;
+      box-shadow: 5px 5px 3px 3px rgba(0,0,0,0.3);
+    }
+    div.map div.card::before{
+      content: "";
+      background: #fff;
+      width: 10px;
+      height: 100%;
+    }
+    div.map div.card:hover ~ div.map div.card::before{
+      content: "";
+      background: #fff;
+      width: 10px;
+      height: 100%;
+    }
   </style>
 </head>
 
@@ -69,11 +92,29 @@
     <div class="position-absolute area" style="width: 20%;height: 35%;left: 60%;top: 65%;"></div>
     <div class="position-absolute area" style="width: 20%;height: 35%;left: 80%;top: 65%;"></div>
   </div>
-  <div class="map w-100 text-center mt-5">
+  <div class="map w-100 text-center mt-5 mb-3">
     <h1>Map Attrations</h1>
-    <div class="mx-auto">
-      <img src="" alt=""></div>
+    <div class="mx-auto w-75 position-relative">
+      <img src="./Module F Media Files/images/lyon-map.jpg" class="w-100 map" alt="">
+      <div class="card p-2 position-absolute" style="left: 5%;top: 5%;">
+        <img src="./Module F Media Files/images/attraction-a.jpg" alt="" class="card-img-top">
+        <p class="card-title">Parc de la Tete br d'Or</p>
+      </div>
+      <div class="card p-2 position-absolute" style="left: 30%;top: 5%;">
+        <img src="./Module F Media Files/images/attraction-b.jpg" alt="" class="card-img-top">
+        <p class="card-title">Street</p>
+      </div>
+      <div class="card p-2 position-absolute" style="left: 5%;top: 50%;">
+        <img src="./Module F Media Files/images/attraction-c.jpg" alt="" class="card-img-top">
+        <p class="card-title">Rive</p>
+      </div>
+      <div class="card p-2 position-absolute" style="left: 30%;top: 50%;">
+        <img src="./Module F Media Files/images/all-attractions.jpg" alt="" class="card-img-top">
+        <p class="card-title">All Attractions</p>
+      </div>
+    </div>
   </div>
+  <video src="./Module F Media Files/videos/lyon.mp4" class="w-100" loop></video>
 
   <script src="jqueryv3.7.1.js"></script>
   <script src="bootstrap.js"></script>
@@ -88,6 +129,18 @@
           $("header").css("background", "#eee");
         }
       });
+      const video = $("video")[0]
+      function toggleVideo() {
+        const {top,bottom} = video.getBoundingClientRect()
+        const WindowHeight = $(window).height()
+        if (top > 0 && bottom < WindowHeight) {
+          video.play()
+        } else {
+          video.pause()
+        }
+      }
+      $(window).on('scroll resize',toggleVideo())
+      toggleVideo()
     });
   </script>
 </body>
