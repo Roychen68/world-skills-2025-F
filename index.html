@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>module d</title>
+  <link rel="stylesheet" href="bootstrap.css">
+  <style>
+    header {
+      background: #eee;
+      backdrop-filter: blur(10px);
+      width: 100%;
+      height: 60px;
+      transition: .5s;
+    }
+
+    .ln-60 {
+      line-height: 60px;
+    }
+
+    header a {
+      font-size: 30px;
+    }
+
+    .CalltoAction {
+      width: 20%;
+      height: 15%;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%);
+      position: absolute;
+      font-size: 3vh;
+      text-align: center;
+      align-items: center;
+      margin: auto;
+      overflow: hidden;
+      z-index: 1;
+      border: none;
+      transition: 500ms;
+    }
+    div.cover{
+      z-index: 3;
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="text-center d-flex justify-content-around align-middle fixed-top">
+    <h3 class="ln-60">WELCOME LYON</h3>
+    <a href="#" class="ln-60 text-primary">Link</a>
+    <a href="#" class="ln-60 text-primary">Link</a>
+    <a href="#" class="ln-60 text-primary">Link</a>
+  </header>
+  <div class="w-100 cover">
+    <img src="./Module F Media Files/images/cover.jpg" alt="" class="w-100">
+    <div class="position-absolute area" style="width: 20%;height: 50%;left: 0;top: 0;"></div>
+    <div class="position-absolute area" style="width: 20%;height: 50%;left: 20%;top: 0;"></div>
+    <div class="position-absolute area" style="width: 20%;height: 50%;left: 40%;top: 0;"></div>
+    <div class="position-absolute area" style="width: 20%;height: 50%;left: 60%;top: 0;"></div>
+    <div class="position-absolute area" style="width: 20%;height: 50%;left: 80%;top: 0;"></div>
+    <div class="position-absolute area" style="width: 40%;height: 15%;left: 0%;top: 50%;"></div>
+    <button class="CalltoAction">Call to Action</button>
+    <div class="position-absolute area" style="width: 40%;height: 15%;right: 0%;top: 50%;"></div>
+    <div class="position-absolute area" style="width: 20%;height: 35%;left: 0;top: 65%;"></div>
+    <div class="position-absolute area" style="width: 20%;height: 35%;left: 20%;top: 65%;"></div>
+    <div class="position-absolute area" style="width: 20%;height: 35%;left: 40%;top: 65%;"></div>
+    <div class="position-absolute area" style="width: 20%;height: 35%;left: 60%;top: 65%;"></div>
+    <div class="position-absolute area" style="width: 20%;height: 35%;left: 80%;top: 65%;"></div>
+  </div>
+  <div class="map w-100 text-center mt-5">
+    <h1>Map Attrations</h1>
+    <div class="mx-auto">
+      <img src="" alt=""></div>
+  </div>
+
+  <script src="jqueryv3.7.1.js"></script>
+  <script src="bootstrap.js"></script>
+  <script src="jquery-uiv1.13.2.js"></script>
+  <script src="vue.global.js"></script>
+  <script>
+    $(document).ready(function () {
+      $(window).scroll(function () {
+        if ($(this).scrollTop() > 0) {
+          $("header").css("background", "rgba(255,255,255,0.8)");
+        } else {
+          $("header").css("background", "#eee");
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
