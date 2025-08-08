@@ -39,32 +39,86 @@
       border: none;
       transition: 500ms;
     }
-    div.cover{
+
+    div.cover {
       z-index: 3;
       position: relative;
     }
-    img.card-img-top{
+
+    img.card-img-top {
       width: 100%;
     }
-    div.map div.card{
+
+    div.map div.card {
       width: 20%;
       transition: .3s;
     }
-    div.map div.card:hover{
+
+    div.map div.card:hover {
       scale: 1.05;
-      box-shadow: 5px 5px 3px 3px rgba(0,0,0,0.3);
+      box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.3);
     }
-    div.map div.card::before{
+
+    div.map div.card::before {
       content: "";
       background: #fff;
       width: 10px;
       height: 100%;
     }
-    div.map div.card:hover ~ div.map div.card::before{
+
+    div.map div.card:hover~div.map div.card::before {
       content: "";
       background: #fff;
       width: 10px;
       height: 100%;
+    }
+
+    div.slider {
+      overflow: hidden;
+      height: 250px;
+      overflow-x: hidden;
+      display: flex;
+      position: relative;
+      gap: 1rem;
+      cursor: grab;
+      padding: 1rem;
+    }
+
+    div.slider-inner {
+      gap: 1rem;
+    }
+
+    div.slider-inner div.card {
+      flex: 0 0 auto;
+      width: 300px;
+      height: 230px;
+    }
+
+    footer {
+      background: #ccc;
+      height: 300px;
+    }
+    div.tag{
+      width: 100px;
+      height: 50px;
+      line-height: 50px;
+      background: #eee;
+      text-align: center;
+      position: relative;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+    div.tag.active::before{
+      transition: .5s ease;
+      position: absolute;
+      z-index: 2;
+      content: "";
+      height: 2px;
+      width: 100%;
+      background: blue;
+      bottom: 0;
+      left: 0;
+      transform: translateY(2px);
     }
   </style>
 </head>
@@ -76,8 +130,8 @@
     <a href="#" class="ln-60 text-primary">Link</a>
     <a href="#" class="ln-60 text-primary">Link</a>
   </header>
-  <div class="w-100 cover">
-    <img src="./Module F Media Files/images/cover.jpg" alt="" class="w-100">
+  <div class="w-100 cover mb-5">
+    <img src="./Module F Media Files/images/cover.jpg" alt="" class="w-100 mb-5">
     <div class="position-absolute area" style="width: 20%;height: 50%;left: 0;top: 0;"></div>
     <div class="position-absolute area" style="width: 20%;height: 50%;left: 20%;top: 0;"></div>
     <div class="position-absolute area" style="width: 20%;height: 50%;left: 40%;top: 0;"></div>
@@ -92,7 +146,7 @@
     <div class="position-absolute area" style="width: 20%;height: 35%;left: 60%;top: 65%;"></div>
     <div class="position-absolute area" style="width: 20%;height: 35%;left: 80%;top: 65%;"></div>
   </div>
-  <div class="map w-100 text-center mt-5 mb-3">
+  <div class="map w-100 text-center mt-5 mb-5">
     <h1>Map Attrations</h1>
     <div class="mx-auto w-75 position-relative">
       <img src="./Module F Media Files/images/lyon-map.jpg" class="w-100 map" alt="">
@@ -114,8 +168,79 @@
       </div>
     </div>
   </div>
-  <video src="./Module F Media Files/videos/lyon.mp4" class="w-100" loop></video>
-
+  <video src="./Module F Media Files/videos/lyon.mp4" class="w-100 mb-5" loop></video>
+  <div class="d-flex w-75 mx-auto mt-5 mb-5">
+    <div class="w-50">
+      <h1 class="text-center mb-5">Essential Information</h1>
+      <p>Contact: 04 72 10 30 30</p>
+      <p>Address: Mairie de Lyon, 69205 Lyon cedex 01</p>
+      <button class="btn btn-primary btn-lg w-25">Read it loud</button>
+    </div>
+    <div class="w-50 text-center">
+      <h1 class="text-center">Latest Events</h1>
+      <div class="shadow slider">
+        <div class="slider-inner d-flex">
+          <div class="card mx-auto">
+            <img src="./Module F Media Files/latest-events-images/journees_portes_ouvertes_entreprises_2023_p.jpg"
+              alt="" class="card-img-top">
+          </div>
+          <div class="card mx-auto">
+            <img src="./Module F Media Files/latest-events-images/lyon-kayak-p-0.jpg" alt="" class="card-img-top">
+          </div>
+          <div class="card mx-auto">
+            <img src="./Module F Media Files/latest-events-images/semaine-bleue-2024-p.jpg" alt="" class="card-img-top">
+          </div>
+          <div class="card mx-auto">
+            <img src="./Module F Media Files/latest-events-images/worldskills-2024-p.jpg" alt="" class="card-img-top">
+          </div>
+          <div class="card mx-auto">
+            <img src="./Module F Media Files/latest-events-images/village-des-metiers-p.jpg" alt=""
+              class="card-img-top">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h1 class="mt-5 text-center">Ohter Information</h1>
+  <div id="app">
+    <div class="w-50 mx-auto">
+      <div class="d-flex">
+        <div class="tag" @click="tab = '1'" :class="tab == '1' ? 'active' : ''">tab 1</div>
+        <div class="tag" @click="tab = '2'" :class="tab == '2' ? 'active' : ''">tab 2</div>
+        <div class="tag" @click="tab = '3'" :class="tab == '3' ? 'active' : ''">tab 3</div>
+      </div>
+      <div class="card mx-auto">
+        <div class="card-body" v-if="tab === '1'">This is content for Tab 1</div>
+        <div class="card-body" v-if="tab === '2'">This is content for Tab 2</div>
+        <div class="card-body" v-if="tab === '3'">This is content for Tab 3</div>
+      </div>
+  </div>
+  </div>
+  <footer class="w-100">
+    <div class="w-75 mx-auto p-5 mt-5 d-flex">
+      <div class="text-left w-25">
+        <a href="#" class="text-dark d-block">About Us</a>
+        <a href="#" class="text-dark d-block">Getting Here</a>
+        <a href="#" class="text-dark d-block">FAQs</a>
+      </div>
+      <div class="text-left w-25">
+        <a href="#" class="text-dark d-block">Places to Stay</a>
+        <a href="#" class="text-dark d-block">Things to Do</a>
+        <a href="#" class="text-dark d-block">Events Calendar</a>
+      </div>
+      <div class="text-left w-25">
+        <a href="#" class="text-dark d-block">Restaurants</a>
+        <a href="#" class="text-dark d-block">Nightlife</a>
+        <a href="#" class="text-dark d-block">Shopping</a>
+      </div>
+      <div class="text-left w-25">
+        <a href="#" class="text-dark d-block">Plan Your Trip</a>
+        <a href="#" class="text-dark d-block">Contact Us</a>
+        <a href="#" class="text-dark d-block">Newsletter Signup</a>
+      </div>
+    </div>
+    <p class="text-center align-bottom">&copy; 2024. All Rights Reserved.</p>
+  </footer>
   <script src="jqueryv3.7.1.js"></script>
   <script src="bootstrap.js"></script>
   <script src="jquery-uiv1.13.2.js"></script>
@@ -131,17 +256,41 @@
       });
       const video = $("video")[0]
       function toggleVideo() {
-        const {top,bottom} = video.getBoundingClientRect()
+        const { top, bottom } = video.getBoundingClientRect()
         const WindowHeight = $(window).height()
-        if (top > 0 && bottom < WindowHeight) {
+        if (bottom > 0 && top < WindowHeight) {
           video.play()
         } else {
           video.pause()
         }
       }
-      $(window).on('scroll resize',toggleVideo())
+      $(window).on('scroll resize', toggleVideo)
       toggleVideo()
+      const inner = $("div.slider-inner")
+      const slider = $("div.slider")
+      inner.draggable({
+        axis: "x",
+        drag: function (event, ui) {
+          const containerWidth = slider.width();
+          const innerWidth = inner.width();
+          const maxLeft = containerWidth - innerWidth;
+          if (ui.position.left > 0) {
+            ui.position.left = 0;
+          } else if (ui.position.left < maxLeft) {
+            ui.position.left = maxLeft;
+          }
+        }
+      });
+
     });
+    const {createApp} = Vue
+    createApp({
+      data(){
+        return {
+          tab: "1"
+        }
+      }
+    }).mount("#app")
   </script>
 </body>
 
