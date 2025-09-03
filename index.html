@@ -24,20 +24,44 @@
     }
 
     .CalltoAction {
-      width: 20%;
-      height: 15%;
-      left: 50%;
-      top: 50%;
-      transform: translateX(-50%);
-      position: absolute;
-      font-size: 3vh;
-      text-align: center;
-      align-items: center;
-      margin: auto;
+      display: block;
+      position: relative;
+      padding: 20px 50px;
+      font-size: 2rem;
+      color: white;
+      bottom: 900px;
+      background: transparent;
+      border: 2px solid orange;
+      border-radius: 10px;
+      cursor: pointer;
       overflow: hidden;
-      z-index: 1;
-      border: none;
-      transition: 500ms;
+      z-index: 10;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+    .CalltoAction::before {
+      content: "";
+      position: absolute;
+      top: var(--y, 50%);
+      left: var(--x, 50%);
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: width 0.4s ease, height 0.4s ease;
+      border-radius: 50%;
+    }
+
+    .CalltoAction:hover {
+      border-width: 4px;
+      border-color: #ffb84d;
+      box-shadow: 0 0 25px rgba(255, 165, 0, 0.7);
+      transform: scale(1.05);
+    }
+
+    .CalltoAction:hover::before {
+      width: 300%;
+      height: 300%;
     }
 
     div.cover {
@@ -50,28 +74,84 @@
     }
 
     div.map div.card {
+      position: relative;
       width: 20%;
-      transition: .3s;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
     }
 
-    div.map div.card:hover {
-      scale: 1.05;
-      box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.3);
+    /* 共用 .map 和 .slider 的 .card 樣式 */
+    .map div.card,
+    .slider-inner div.card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
     }
 
-    div.map div.card::before {
+    /* .map 裡寬度是 20%，但 slider 裡我們用固定寬度300px，分開設定 */
+    .map div.card {
+      width: 20%;
+    }
+
+    .slider-inner div.card {
+      flex: 0 0 auto;
+      width: 300px;
+      height: 230px;
+    }
+
+    /* hover 效果也共用 */
+    .map div.card:hover,
+    .slider-inner div.card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* shine 的 ::before 內容也共用 */
+    .map div.card::before,
+    .slider-inner div.card::before {
       content: "";
-      background: #fff;
-      width: 10px;
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
       height: 100%;
+      background: linear-gradient(120deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.4) 50%,
+          rgba(255, 255, 255, 0) 100%);
+      transform: skewX(-25deg);
+      pointer-events: none;
+      /* 不攔截滑鼠事件 */
+      transition: none;
+      /* 因為動畫使用 keyframes */
     }
 
-    div.map div.card:hover~div.map div.card::before {
-      content: "";
-      background: #fff;
-      width: 10px;
-      height: 100%;
+    /* hover 時觸發動畫 */
+    .map div.card:hover::before,
+    .slider-inner div.card:hover::before {
+      animation: light-move 0.8s ease forwards;
     }
+
+    /* leave 狀態時也觸發動畫 */
+    .map div.card.leave::before,
+    .slider-inner div.card.leave::before {
+      animation: light-move 0.8s ease forwards;
+    }
+
+    /* keyframes 動畫 */
+    @keyframes light-move {
+      from {
+        left: -75%;
+      }
+
+      to {
+        left: 125%;
+      }
+    }
+
+
 
     div.slider {
       overflow: hidden;
@@ -98,7 +178,8 @@
       background: #ccc;
       height: 300px;
     }
-    div.tag{
+
+    div.tag {
       width: 100px;
       height: 50px;
       line-height: 50px;
@@ -108,7 +189,8 @@
       transition: 0.3s ease;
       cursor: pointer;
     }
-    div.tag.active::before{
+
+    div.tag.active::before {
       transition: .5s ease;
       position: absolute;
       z-index: 2;
@@ -120,14 +202,16 @@
       left: 0;
       transform: translateY(2px);
     }
-    form{
+
+    form {
       margin-top: 100px;
       border: 2px solid #eee;
       padding: 4px;
       position: relative;
       border: 3px solid #ccc;
     }
-    div.legend{
+
+    div.legend {
       padding: 2px 10px;
       position: absolute;
       top: -50px;
@@ -145,23 +229,23 @@
     <a href="#" class="ln-60 text-primary">Link</a>
     <a href="#" class="ln-60 text-primary">Link</a>
   </header>
-  <div class="w-100 cover mb-5">
+  <div class="w-100 cover mb-5 position-relative">
     <img src="./Module F Media Files/images/cover.jpg" alt="" class="w-100 mb-5">
-    <div class="position-absolute area" style="width: 20%;height: 50%;left: 0;top: 0;"></div>
+    <!-- <div class="position-absolute area" style="width: 20%;height: 50%;left: 0;top: 0;"></div>
     <div class="position-absolute area" style="width: 20%;height: 50%;left: 20%;top: 0;"></div>
     <div class="position-absolute area" style="width: 20%;height: 50%;left: 40%;top: 0;"></div>
     <div class="position-absolute area" style="width: 20%;height: 50%;left: 60%;top: 0;"></div>
     <div class="position-absolute area" style="width: 20%;height: 50%;left: 80%;top: 0;"></div>
-    <div class="position-absolute area" style="width: 40%;height: 15%;left: 0%;top: 50%;"></div>
-    <button class="CalltoAction">Call to Action</button>
-    <div class="position-absolute area" style="width: 40%;height: 15%;right: 0%;top: 50%;"></div>
+    <div class="position-absolute area" style="width: 40%;height: 15%;left: 0%;top: 50%;"></div> -->
+    <button class="CalltoAction mx-auto">Call to Action</button>
+    <!-- <div class="position-absolute area" style="width: 40%;height: 15%;right: 0%;top: 50%;"></div>
     <div class="position-absolute area" style="width: 20%;height: 35%;left: 0;top: 65%;"></div>
     <div class="position-absolute area" style="width: 20%;height: 35%;left: 20%;top: 65%;"></div>
     <div class="position-absolute area" style="width: 20%;height: 35%;left: 40%;top: 65%;"></div>
     <div class="position-absolute area" style="width: 20%;height: 35%;left: 60%;top: 65%;"></div>
-    <div class="position-absolute area" style="width: 20%;height: 35%;left: 80%;top: 65%;"></div>
+    <div class="position-absolute area" style="width: 20%;height: 35%;left: 80%;top: 65%;"></div> -->
   </div>
-  <div class="map w-100 text-center mt-5 mb-5">
+  <div class="map w-100 text-center mt-5 mb-5 position-relative">
     <h1>Map Attrations</h1>
     <div class="mx-auto w-75 position-relative">
       <img src="./Module F Media Files/images/lyon-map.jpg" class="w-100 map" alt="">
@@ -229,10 +313,12 @@
         <div class="card-body" v-if="tab === '2'">This is content for Tab 2</div>
         <div class="card-body" v-if="tab === '3'">This is content for Tab 3</div>
       </div>
-  </div>
+    </div>
   </div>
   <form class="w-75 mx-auto text-center card-body">
-    <div class="legend card mx-auto"><h1>Contact Us</h1></div>
+    <div class="legend card mx-auto">
+      <h1>Contact Us</h1>
+    </div>
     <div class="d-flex mx-auto">
       <div class="form-group text-left w-50 mr-3">
         <label for="">First name</label>
@@ -285,6 +371,22 @@
   <script src="vue.global.js"></script>
   <script>
     $(document).ready(function () {
+      $(".map .card, .slider .card").on("mouseleave", function () {
+        const $card = $(this);
+        $card.removeClass("leave"); // reset
+        this.offsetWidth; // force reflow
+        $card.addClass("leave");
+        setTimeout(() => $card.removeClass("leave"), 800);
+      });
+
+      $(".CalltoAction").on("mousemove", function (e) {
+        let rect = this.getBoundingClientRect();
+        $(this).css({
+          "--x": (e.clientX - rect.left) + "px",
+          "--y": (e.clientY - rect.top) + "px"
+        });
+      });
+
       $(window).scroll(function () {
         if ($(this).scrollTop() > 0) {
           $("header").css("background", "rgba(255,255,255,0.8)");
@@ -302,7 +404,7 @@
           video.pause()
         }
         console.log("toggled");
-        
+
       }
       $(window).on('scroll resize', toggleVideo)
       toggleVideo()
@@ -323,9 +425,9 @@
       });
 
     });
-    const {createApp} = Vue
+    const { createApp } = Vue
     createApp({
-      data(){
+      data() {
         return {
           tab: "1"
         }
