@@ -1,439 +1,503 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>module d</title>
-  <link rel="stylesheet" href="bootstrap.css">
-  <style>
-    header {
-      background: #eee;
-      backdrop-filter: blur(10px);
-      width: 100%;
-      height: 60px;
-      transition: .5s;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module D</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <style>
+        header {
+            background: #eee;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            height: 60px;
+            transition: .5s;
+        }
 
-    .ln-60 {
-      line-height: 60px;
-    }
+        .ln-60 {
+            line-height: 60px;
+        }
 
-    header a {
-      font-size: 30px;
-    }
+        header a {
+            font-size: 30px;
+        }
 
-    .CalltoAction {
-      display: block;
-      position: relative;
-      padding: 20px 50px;
-      font-size: 2rem;
-      color: white;
-      bottom: 900px;
-      background: transparent;
-      border: 2px solid orange;
-      border-radius: 10px;
-      cursor: pointer;
-      overflow: hidden;
-      z-index: 10;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-    }
+        /* ------------------------------
+        Call to Action Button
+        ------------------------------ */
+        .cta-button {
+            /* Remove 'display: block' and 'margin: 10px' from here */
+            overflow: hidden;
+            position: relative;
+            padding: 20px 50px;
+            width: 350px;
+            height: 200px;
+            font-size: 2rem;
+            color: black;
+            background: #ccc;
+            border: none;
+            outline: none;
+            z-index: 5;
+            border-radius: 10px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        }
 
-    .CalltoAction::before {
-      content: "";
-      position: absolute;
-      top: var(--y, 50%);
-      left: var(--x, 50%);
-      width: 0;
-      height: 0;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
-      transform: translate(-50%, -50%);
-      transition: width 0.4s ease, height 0.4s ease;
-      border-radius: 50%;
-    }
+        .cta-bg:hover ~ .cta-button {
+            border-width: 4px;
+            border-color: #ffb84d;
+            transform: scale(1.05);
+        }
 
-    .CalltoAction:hover {
-      border-width: 4px;
-      border-color: #ffb84d;
-      box-shadow: 0 0 25px rgba(255, 165, 0, 0.7);
-      transform: scale(1.05);
-    }
+        .cta-bg {
+            position: relative; /* Keep this for positioning relative to the cover image */
+            width: 360px;
+            height: 210px;
+            display: flex;
+            align-items: center; /* Centers button vertically */
+            justify-content: flex-end;
+            margin: auto;
+            bottom: 900px;
+            transition: 0.3s;
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-    .CalltoAction:hover::before {
-      width: 300%;
-      height: 300%;
-    }
+        .cta-bg:hover {
+            border-width: 4px;
+            border-color: #ffb84d;
+            transform: scale(1.05);
+        }
 
-    div.cover {
-      z-index: 3;
-      position: relative;
-    }
+        .cta-bg::before {
+            filter: blur(10px) opacity(0.8);
+            content: "";
+            position: absolute;
+            top: var(--y, 50%);
+            left: var(--x, 50%);
+            width: 0;
+            pointer-events: none;
+            height: 0;
+            z-index: 1;
+            background: radial-gradient(circle, rgba(208, 37, 0, 0.8) 0%, rgba(255, 100, 0, 0.8) 10%);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            border-radius: 100%;
+            overflow: hidden;
+        }
 
-    img.card-img-top {
-      width: 100%;
-    }
+        .cta-button::before {
+            content: "";
+            z-index: 2;
+            position: absolute;
+            top: var(--y, 50%);
+            left: var(--x, 50%);
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, #eee, transparent 30%);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            border-radius: 100%;
+        }
 
-    div.map div.card {
-      position: relative;
-      width: 20%;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-    }
+        .cta-button:hover::before {
+            width: 300%;
+            height: 300%;
+        }
 
-    /* 共用 .map 和 .slider 的 .card 樣式 */
-    .map div.card,
-    .slider-inner div.card {
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-    }
+        .cta-bg:hover::before {
+            width: 80%;
+            height: 80%;
+        }
 
-    /* .map 裡寬度是 20%，但 slider 裡我們用固定寬度300px，分開設定 */
-    .map div.card {
-      width: 20%;
-    }
+        .cta-text {
+            position: relative;
+            z-index: 5; /* Ensures text is always on top */
+        }
 
-    .slider-inner div.card {
-      flex: 0 0 auto;
-      width: 300px;
-      height: 230px;
-    }
+        /* ------------------------------
+        Card Styles (Map & Slider)
+        ------------------------------ */
+        /* Shared styles for both map and slider cards */
+        .map .card,
+        .slider-inner .card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
 
-    /* hover 效果也共用 */
-    .map div.card:hover,
-    .slider-inner div.card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
-    }
+        /* Individual width for map cards */
+        .map .card {
+            width: 20%;
+        }
 
-    /* shine 的 ::before 內容也共用 */
-    .map div.card::before,
-    .slider-inner div.card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -75%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(120deg,
-          rgba(255, 255, 255, 0) 0%,
-          rgba(255, 255, 255, 0.4) 50%,
-          rgba(255, 255, 255, 0) 100%);
-      transform: skewX(-25deg);
-      pointer-events: none;
-      /* 不攔截滑鼠事件 */
-      transition: none;
-      /* 因為動畫使用 keyframes */
-    }
+        /* Individual width for slider cards */
+        .slider-inner .card {
+            flex: 0 0 auto;
+            width: 300px;
+            height: 230px;
+        }
 
-    /* hover 時觸發動畫 */
-    .map div.card:hover::before,
-    .slider-inner div.card:hover::before {
-      animation: light-move 0.8s ease forwards;
-    }
+        /* Shared hover effect */
+        .map .card:hover,
+        .slider-inner .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+        }
 
-    /* leave 狀態時也觸發動畫 */
-    .map div.card.leave::before,
-    .slider-inner div.card.leave::before {
-      animation: light-move 0.8s ease forwards;
-    }
+        /* Shared shine effect using ::before */
+        .map .card::before,
+        .slider-inner .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-25deg);
+            pointer-events: none;
+            transition: left 500ms ease;
+        }
 
-    /* keyframes 動畫 */
-    @keyframes light-move {
-      from {
-        left: -75%;
-      }
+        /* Shared animation trigger on hover/leave */
+        .map .card:hover::before,
+        .slider-inner .card:hover::before {
+            left: 150%;
+        }
 
-      to {
-        left: 125%;
-      }
-    }
+        .map .card.leave::before,
+        .slider-inner .card.leave::before {
+            /*animation: light-move-leave 0.8s ease forwards;*/
+            left: -75%;
+        }
 
+        /* ------------------------------
+        Slider
+        ------------------------------ */
+        .slider {
+            overflow: hidden;
+            height: 250px;
+            display: flex;
+            position: relative;
+            gap: 1rem;
+            cursor: grab;
+            padding: 1rem;
+        }
 
+        .slider-inner {
+            gap: 1rem;
+        }
 
-    div.slider {
-      overflow: hidden;
-      height: 250px;
-      overflow-x: hidden;
-      display: flex;
-      position: relative;
-      gap: 1rem;
-      cursor: grab;
-      padding: 1rem;
-    }
+        /* ------------------------------
+        Tabs and Form
+        ------------------------------ */
+        div.tag {
+            width: 100px;
+            height: 50px;
+            line-height: 50px;
+            background: #eee;
+            text-align: center;
+            position: relative;
+            transition: 0.3s ease;
+            cursor: pointer;
+        }
 
-    div.slider-inner {
-      gap: 1rem;
-    }
+        div.tag.active::before {
+            transition: .5s ease;
+            position: absolute;
+            z-index: 2;
+            content: "";
+            height: 2px;
+            width: 100%;
+            background: blue;
+            bottom: 0;
+            left: 0;
+            transform: translateY(2px);
+        }
 
-    div.slider-inner div.card {
-      flex: 0 0 auto;
-      width: 300px;
-      height: 230px;
-    }
+        form {
+            margin-top: 100px;
+            border: 2px solid #eee;
+            padding: 4px;
+            position: relative;
+        }
 
-    footer {
-      background: #ccc;
-      height: 300px;
-    }
+        div.legend {
+            padding: 2px 10px;
+            position: absolute;
+            top: -50px;
+            transform: translateX(-50%);
+            left: 50%;
+            border: 3px solid #ccc;
+        }
 
-    div.tag {
-      width: 100px;
-      height: 50px;
-      line-height: 50px;
-      background: #eee;
-      text-align: center;
-      position: relative;
-      transition: 0.3s ease;
-      cursor: pointer;
-    }
-
-    div.tag.active::before {
-      transition: .5s ease;
-      position: absolute;
-      z-index: 2;
-      content: "";
-      height: 2px;
-      width: 100%;
-      background: blue;
-      bottom: 0;
-      left: 0;
-      transform: translateY(2px);
-    }
-
-    form {
-      margin-top: 100px;
-      border: 2px solid #eee;
-      padding: 4px;
-      position: relative;
-      border: 3px solid #ccc;
-    }
-
-    div.legend {
-      padding: 2px 10px;
-      position: absolute;
-      top: -50px;
-      transform: translateX(-50%);
-      left: 50%;
-      border: 3px solid #ccc;
-    }
-  </style>
+        footer {
+            background: #ccc;
+            height: 300px;
+        }
+    </style>
+    </style>
 </head>
-
 <body>
-  <header class="text-center d-flex justify-content-around align-middle fixed-top">
+
+<header class="text-center d-flex justify-content-around align-middle fixed-top">
     <h3 class="ln-60">WELCOME LYON</h3>
     <a href="#" class="ln-60 text-primary">Link</a>
     <a href="#" class="ln-60 text-primary">Link</a>
     <a href="#" class="ln-60 text-primary">Link</a>
-  </header>
-  <div class="w-100 cover mb-5 position-relative">
-    <img src="./Module F Media Files/images/cover.jpg" alt="" class="w-100 mb-5">
-    <!-- <div class="position-absolute area" style="width: 20%;height: 50%;left: 0;top: 0;"></div>
-    <div class="position-absolute area" style="width: 20%;height: 50%;left: 20%;top: 0;"></div>
-    <div class="position-absolute area" style="width: 20%;height: 50%;left: 40%;top: 0;"></div>
-    <div class="position-absolute area" style="width: 20%;height: 50%;left: 60%;top: 0;"></div>
-    <div class="position-absolute area" style="width: 20%;height: 50%;left: 80%;top: 0;"></div>
-    <div class="position-absolute area" style="width: 40%;height: 15%;left: 0%;top: 50%;"></div> -->
-    <button class="CalltoAction mx-auto">Call to Action</button>
-    <!-- <div class="position-absolute area" style="width: 40%;height: 15%;right: 0%;top: 50%;"></div>
-    <div class="position-absolute area" style="width: 20%;height: 35%;left: 0;top: 65%;"></div>
-    <div class="position-absolute area" style="width: 20%;height: 35%;left: 20%;top: 65%;"></div>
-    <div class="position-absolute area" style="width: 20%;height: 35%;left: 40%;top: 65%;"></div>
-    <div class="position-absolute area" style="width: 20%;height: 35%;left: 60%;top: 65%;"></div>
-    <div class="position-absolute area" style="width: 20%;height: 35%;left: 80%;top: 65%;"></div> -->
-  </div>
-  <div class="map w-100 text-center mt-5 mb-5 position-relative">
-    <h1>Map Attrations</h1>
+</header>
+
+<div class="w-100 cover mb-5 position-relative">
+    <img src="./Module F Media Files/images/cover.jpg" alt="Lyon Cityscape" class="w-100 mb-5">
+    <div class="cta-bg">
+        <button class="cta-button mx-auto">
+            <span class="cta-text">Call to Action</span>
+        </button>
+    </div>
+</div>
+
+<div class="map w-100 text-center mt-5 mb-5 position-relative">
+    <h1>Map Attractions</h1>
     <div class="mx-auto w-75 position-relative">
-      <img src="./Module F Media Files/images/lyon-map.jpg" class="w-100 map" alt="">
-      <div class="card p-2 position-absolute" style="left: 5%;top: 5%;">
-        <img src="./Module F Media Files/images/attraction-a.jpg" alt="" class="card-img-top">
-        <p class="card-title">Parc de la Tete br d'Or</p>
-      </div>
-      <div class="card p-2 position-absolute" style="left: 30%;top: 5%;">
-        <img src="./Module F Media Files/images/attraction-b.jpg" alt="" class="card-img-top">
-        <p class="card-title">Street</p>
-      </div>
-      <div class="card p-2 position-absolute" style="left: 5%;top: 50%;">
-        <img src="./Module F Media Files/images/attraction-c.jpg" alt="" class="card-img-top">
-        <p class="card-title">Rive</p>
-      </div>
-      <div class="card p-2 position-absolute" style="left: 30%;top: 50%;">
-        <img src="./Module F Media Files/images/all-attractions.jpg" alt="" class="card-img-top">
-        <p class="card-title">All Attractions</p>
-      </div>
-    </div>
-  </div>
-  <video src="./Module F Media Files/videos/lyon.mp4" class="w-100 mb-5" loop muted></video>
-  <div class="d-flex w-75 mx-auto mt-5 mb-5">
-    <div class="w-50">
-      <h1 class="text-center mb-5">Essential Information</h1>
-      <p>Contact: 04 72 10 30 30</p>
-      <p>Address: Mairie de Lyon, 69205 Lyon cedex 01</p>
-      <button class="btn btn-primary btn-lg w-25">Read it loud</button>
-    </div>
-    <div class="w-50 text-center">
-      <h1 class="text-center">Latest Events</h1>
-      <div class="shadow slider">
-        <div class="slider-inner d-flex">
-          <div class="card mx-auto">
-            <img src="./Module F Media Files/latest-events-images/journees_portes_ouvertes_entreprises_2023_p.jpg"
-              alt="" class="card-img-top">
-          </div>
-          <div class="card mx-auto">
-            <img src="./Module F Media Files/latest-events-images/lyon-kayak-p-0.jpg" alt="" class="card-img-top">
-          </div>
-          <div class="card mx-auto">
-            <img src="./Module F Media Files/latest-events-images/semaine-bleue-2024-p.jpg" alt="" class="card-img-top">
-          </div>
-          <div class="card mx-auto">
-            <img src="./Module F Media Files/latest-events-images/worldskills-2024-p.jpg" alt="" class="card-img-top">
-          </div>
-          <div class="card mx-auto">
-            <img src="./Module F Media Files/latest-events-images/village-des-metiers-p.jpg" alt=""
-              class="card-img-top">
-          </div>
+        <img src="./Module F Media Files/images/lyon-map.jpg" class="w-100 map-img" alt="Map of Lyon">
+        <div class="card p-2 position-absolute" style="left: 5%; top: 5%;">
+            <img src="./Module F Media Files/images/attraction-a.jpg" alt="Parc de la Tete d'Or" class="card-img-top">
+            <p class="card-title">Parc de la Tete br d'Or</p>
         </div>
-      </div>
+        <div class="card p-2 position-absolute" style="left: 30%; top: 5%;">
+            <img src="./Module F Media Files/images/attraction-b.jpg" alt="Street" class="card-img-top">
+            <p class="card-title">Street</p>
+        </div>
+        <div class="card p-2 position-absolute" style="left: 5%; top: 50%;">
+            <img src="./Module F Media Files/images/attraction-c.jpg" alt="Rive" class="card-img-top">
+            <p class="card-title">Rive</p>
+        </div>
+        <div class="card p-2 position-absolute" style="left: 30%; top: 50%;">
+            <img src="./Module F Media Files/images/all-attractions.jpg" alt="All Attractions" class="card-img-top">
+            <p class="card-title">All Attractions</p>
+        </div>
     </div>
-  </div>
-  <h1 class="mt-5 text-center">Other Information</h1>
-  <div id="app">
+</div>
+
+<video src="./Module F Media Files/videos/lyon.mp4" class="w-100 mb-5" loop muted playsinline></video>
+<div id="app">
+    <div class="d-flex w-75 mx-auto mt-5 mb-5">
+        <div class="w-50 information">
+            <h1 class="text-center mb-5">Essential Information</h1>
+            <p>Contact: 04 72 10 30 30</p>
+            <p>Address: Mairie de Lyon, 69205 Lyon cedex 01</p>
+            <button onclick="readInFrench()" class="btn btn-primary btn-lg w-25">Read it loud</button>
+        </div>
+        <div class="w-50 text-center">
+            <h1 class="text-center">Latest Events</h1>
+            <div class="shadow slider">
+                <div class="slider-inner d-flex">
+                    <div class="card mx-auto">
+                        <img src="./Module F Media Files/latest-events-images/journees_portes_ouvertes_entreprises_2023_p.jpg"
+                             alt="Latest Event 1" class="card-img-top">
+                    </div>
+                    <div class="card mx-auto">
+                        <img src="./Module F Media Files/latest-events-images/lyon-kayak-p-0.jpg" alt="Latest Event 2"
+                             class="card-img-top">
+                    </div>
+                    <div class="card mx-auto">
+                        <img src="./Module F Media Files/latest-events-images/semaine-bleue-2024-p.jpg"
+                             alt="Latest Event 3"
+                             class="card-img-top">
+                    </div>
+                    <div class="card mx-auto">
+                        <img src="./Module F Media Files/latest-events-images/worldskills-2024-p.jpg"
+                             alt="Latest Event 4"
+                             class="card-img-top">
+                    </div>
+                    <div class="card mx-auto">
+                        <img src="./Module F Media Files/latest-events-images/village-des-metiers-p.jpg"
+                             alt="Latest Event 5" class="card-img-top">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="mt-5 text-center">Other Information</h1>
     <div class="w-50 mx-auto">
-      <div class="d-flex">
-        <div class="tag" @click="tab = '1'" :class="tab == '1' ? 'active' : ''">tab 1</div>
-        <div class="tag" @click="tab = '2'" :class="tab == '2' ? 'active' : ''">tab 2</div>
-        <div class="tag" @click="tab = '3'" :class="tab == '3' ? 'active' : ''">tab 3</div>
-      </div>
-      <div class="card mx-auto">
-        <div class="card-body" v-if="tab === '1'">This is content for Tab 1</div>
-        <div class="card-body" v-if="tab === '2'">This is content for Tab 2</div>
-        <div class="card-body" v-if="tab === '3'">This is content for Tab 3</div>
-      </div>
+        <div class="d-flex">
+            <div class="tag" @click="tab = '1'" :class="tab == '1' ? 'active' : ''">tab 1</div>
+            <div class="tag" @click="tab = '2'" :class="tab == '2' ? 'active' : ''">tab 2</div>
+            <div class="tag" @click="tab = '3'" :class="tab == '3' ? 'active' : ''">tab 3</div>
+        </div>
+        <div class="card mx-auto">
+            <div class="card-body" v-show="tab === '1'">This is content for Tab 1</div>
+            <div class="card-body" v-show="tab === '2'">This is content for Tab 2</div>
+            <div class="card-body" v-show="tab === '3'">This is content for Tab 3</div>
+        </div>
     </div>
-  </div>
-  <form class="w-75 mx-auto text-center card-body">
+</div>
+
+<form class="w-75 mx-auto text-center card-body">
     <div class="legend card mx-auto">
-      <h1>Contact Us</h1>
+        <h1>Contact Us</h1>
     </div>
     <div class="d-flex mx-auto">
-      <div class="form-group text-left w-50 mr-3">
-        <label for="">First name</label>
-        <input type="text" class="form-control">
-      </div>
-      <div class="form-group text-left w-50">
-        <label for="">last name</label>
-        <input type="text" class="form-control">
-      </div>
+        <div class="form-group text-left w-50 mr-3">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" class="form-control">
+        </div>
+        <div class="form-group text-left w-50">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" class="form-control">
+        </div>
     </div>
     <div class="d-flex mx-auto">
-      <div class="form-group text-left w-50 mr-3">
-        <label for="">Email</label>
-        <input type="text" class="form-control">
-      </div>
-      <div class="form-group text-left w-50">
-        <label for="">Phone</label>
-        <input type="text" class="form-control">
-      </div>
+        <div class="form-group text-left w-50 mr-3">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control">
+        </div>
+        <div class="form-group text-left w-50">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" class="form-control">
+        </div>
     </div>
-  </form>
-  <footer class="w-100">
+</form>
+
+<footer class="w-100">
     <div class="w-75 mx-auto p-5 mt-5 d-flex">
-      <div class="text-left w-25">
-        <a href="#" class="text-dark d-block">About Us</a>
-        <a href="#" class="text-dark d-block">Getting Here</a>
-        <a href="#" class="text-dark d-block">FAQs</a>
-      </div>
-      <div class="text-left w-25">
-        <a href="#" class="text-dark d-block">Places to Stay</a>
-        <a href="#" class="text-dark d-block">Things to Do</a>
-        <a href="#" class="text-dark d-block">Events Calendar</a>
-      </div>
-      <div class="text-left w-25">
-        <a href="#" class="text-dark d-block">Restaurants</a>
-        <a href="#" class="text-dark d-block">Nightlife</a>
-        <a href="#" class="text-dark d-block">Shopping</a>
-      </div>
-      <div class="text-left w-25">
-        <a href="#" class="text-dark d-block">Plan Your Trip</a>
-        <a href="#" class="text-dark d-block">Contact Us</a>
-        <a href="#" class="text-dark d-block">Newsletter Signup</a>
-      </div>
+        <div class="text-left w-25">
+            <a href="#" class="text-dark d-block">About Us</a>
+            <a href="#" class="text-dark d-block">Getting Here</a>
+            <a href="#" class="text-dark d-block">FAQs</a>
+        </div>
+        <div class="text-left w-25">
+            <a href="#" class="text-dark d-block">Places to Stay</a>
+            <a href="#" class="text-dark d-block">Things to Do</a>
+            <a href="#" class="text-dark d-block">Events Calendar</a>
+        </div>
+        <div class="text-left w-25">
+            <a href="#" class="text-dark d-block">Restaurants</a>
+            <a href="#" class="text-dark d-block">Nightlife</a>
+            <a href="#" class="text-dark d-block">Shopping</a>
+        </div>
+        <div class="text-left w-25">
+            <a href="#" class="text-dark d-block">Plan Your Trip</a>
+            <a href="#" class="text-dark d-block">Contact Us</a>
+            <a href="#" class="text-dark d-block">Newsletter Signup</a>
+        </div>
     </div>
     <p class="text-center align-bottom">&copy; 2024. All Rights Reserved.</p>
-  </footer>
-  <script src="jqueryv3.7.1.js"></script>
-  <script src="bootstrap.js"></script>
-  <script src="jquery-uiv1.13.2.js"></script>
-  <script src="vue.global.js"></script>
-  <script>
+</footer>
+
+<script src="jqueryv3.7.1.js"></script>
+<script src="bootstrap.js"></script>
+<script src="jquery-uiv1.13.2.js"></script>
+<script src="./vue.js"></script>
+
+<script>
     $(document).ready(function () {
-      $(".map .card, .slider .card").on("mouseleave", function () {
-        const $card = $(this);
-        $card.removeClass("leave"); // reset
-        this.offsetWidth; // force reflow
-        $card.addClass("leave");
-        setTimeout(() => $card.removeClass("leave"), 800);
-      });
 
-      $(".CalltoAction").on("mousemove", function (e) {
-        let rect = this.getBoundingClientRect();
-        $(this).css({
-          "--x": (e.clientX - rect.left) + "px",
-          "--y": (e.clientY - rect.top) + "px"
+        // Card mouseleave animation for shine effect
+        $(".map .card, .slider .card").on("mouseleave", function () {
+            const $card = $(this);
+            $card.removeClass("leave");
+            this.offsetWidth; // Force reflow for animation
+            $card.addClass("leave");
+            setTimeout(() => $card.removeClass("leave"), 800);
         });
-      });
 
-      $(window).scroll(function () {
-        if ($(this).scrollTop() > 0) {
-          $("header").css("background", "rgba(255,255,255,0.8)");
-        } else {
-          $("header").css("background", "#eee");
-        }
-      });
-      const video = $("video")[0]
-      function toggleVideo() {
-        const { top, bottom } = video.getBoundingClientRect()
-        const WindowHeight = $(window).height()
-        if (bottom > 0 && top < WindowHeight) {
-          video.play()
-        } else {
-          video.pause()
-        }
-        console.log("toggled");
+        // CTA button mousemove to create ripple effect
+        $(".cta-button,.cta-bg").on("mousemove", function (e) {
+            let rect = this.getBoundingClientRect();
+            $(this).css({
+                "--x": (e.clientX - rect.left) + "px",
+                "--y": (e.clientY - rect.top) + "px"
+            });
+        });
 
-      }
-      $(window).on('scroll resize', toggleVideo)
-      toggleVideo()
-      const inner = $("div.slider-inner")
-      const slider = $("div.slider")
-      inner.draggable({
-        axis: "x",
-        drag: function (event, ui) {
-          const containerWidth = slider.width();
-          const innerWidth = inner.width();
-          const maxLeft = containerWidth - innerWidth;
-          if (ui.position.left > 0) {
-            ui.position.left = 0;
-          } else if (ui.position.left < maxLeft) {
-            ui.position.left = maxLeft;
-          }
+        // Header background change on scroll
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 0) {
+                $("header").css("background", "rgba(255,255,255,0.8)");
+            } else {
+                $("header").css("background", "#eee");
+            }
+        });
+
+        // Video play/pause on scroll
+        // Video play/pause on scroll and tab switch
+        const video = $("video")[0];
+
+        function toggleVideo() {
+            const {top, bottom, height} = video.getBoundingClientRect();
+            const windowHeight = $(window).height();
+            const visibilityThreshold = height * 0.5; // 50% of the video's height
+
+            // Check if at least 50% of the video is in view
+            const isVisible = (top + visibilityThreshold >= 0) && (bottom - visibilityThreshold <= windowHeight);
+
+            // Check if the page is currently active and not hidden in the background
+            const isPageActive = !document.hidden;
+
+            if (isVisible && isPageActive) {
+                video.play();
+            } else {
+                video.pause();
+            }
         }
-      });
+
+// Add event listeners for scroll, resize, and visibility change
+        $(window).on('scroll resize', toggleVideo);
+        $(document).on('visibilitychange', toggleVideo); // This fixes the tab-switching bug
+
+// Initial check to play the video if it's already in view on load
+        toggleVideo();
+
+        $(window).on('scroll resize', toggleVideo);
+        toggleVideo(); // Initial check
+
+        // Slider functionality with draggable
+        const inner = $("div.slider-inner");
+        const slider = $("div.slider");
+        inner.draggable({
+            axis: "x",
+            drag: function (event, ui) {
+                const containerWidth = slider.width();
+                const innerWidth = inner.width();
+                const maxLeft = containerWidth - innerWidth;
+                if (ui.position.left > 0) {
+                    ui.position.left = 0;
+                } else if (ui.position.left < maxLeft) {
+                    ui.position.left = maxLeft;
+                }
+            }
+        });
 
     });
-    const { createApp } = Vue
-    createApp({
-      data() {
-        return {
-          tab: "1"
-        }
-      }
-    }).mount("#app")
-  </script>
-</body>
 
+    function readInFrench() {
+        const text = $(".information h1, .information p").text(); // English text
+        let utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "fr-FR"; // force French
+        const voices = speechSynthesis.getVoices();
+        const frVoice = voices.find(v => v.lang === "fr-FR");
+        if (frVoice) {
+            utterance.voice = frVoice; // use a French voice explicitly
+        }
+        speechSynthesis.speak(utterance);
+    }
+
+    // Vue.js setup for tabs
+    const {createApp} = Vue;
+    createApp({
+        data() {
+            return {
+                tab: "1"
+            };
+        },
+        methods: {},
+        onMounted() {
+        }
+    }).mount("#app");
+</script>
+
+</body>
 </html>
