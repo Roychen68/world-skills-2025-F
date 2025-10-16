@@ -236,12 +236,15 @@
             background: #ccc;
             height: 300px;
         }
-    </style>
+
+        .w-80 {
+            width: 80%;
+        }
     </style>
 </head>
 <body>
 
-<header class="text-center d-flex justify-content-around align-middle fixed-top">
+<header class="text-center d-flex justify-content-around fixed-top">
     <h3 class="ln-60">WELCOME LYON</h3>
     <a href="#" class="ln-60 text-primary">Link</a>
     <a href="#" class="ln-60 text-primary">Link</a>
@@ -258,8 +261,8 @@
 </div>
 
 <div class="map w-100 text-center mt-5 mb-5 position-relative">
-    <h1>Map Attractions</h1>
-    <div class="mx-auto w-75 position-relative">
+    <h1 class="mb-5">Map Attractions</h1>
+    <div class="mx-auto position-relative mt-5 w-80">
         <img src="./Module F Media Files/images/lyon-map.jpg" class="w-100 map-img" alt="Map of Lyon">
         <div class="card p-2 position-absolute" style="left: 5%; top: 5%;">
             <img src="./Module F Media Files/images/attraction-a.jpg" alt="Parc de la Tete d'Or" class="card-img-top">
@@ -282,7 +285,7 @@
 
 <video src="./Module F Media Files/videos/lyon.mp4" class="w-100 mb-5" loop muted playsinline></video>
 <div id="app">
-    <div class="d-flex w-75 mx-auto mt-5 mb-5">
+    <div class="d-flex w-80 mx-auto mt-5 mb-5">
         <div class="w-50 information">
             <h1 class="text-center mb-5">Essential Information</h1>
             <p>Contact: 04 72 10 30 30</p>
@@ -335,7 +338,7 @@
     </div>
 </div>
 
-<form class="w-75 mx-auto text-center card-body">
+<form class="w-80 mx-auto text-center card-body">
     <div class="legend card mx-auto">
         <h1>Contact Us</h1>
     </div>
@@ -425,7 +428,7 @@
         // Video play/pause on scroll
         // Video play/pause on scroll and tab switch
         const video = $("video")[0];
-
+        let t = new IntersectionObserver()
         function toggleVideo() {
             const {top, bottom, height} = video.getBoundingClientRect();
             const windowHeight = $(window).height();
